@@ -1,7 +1,25 @@
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
+using WSocialMedia.Areas.Identity.Data;
+using WSocialMedia.Data;
 
-// Add services to the container.
+var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("WSocialMediaConnection");
+builder.Services.AddDbContext<WSocialMediaContext>(options =>
+    options.UseNpgsql(connectionString));builder.Services.AddDefaultIdentity<WSocialMediaUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<WSocialMediaContext>();
+
+// Add services to the container
 builder.Services.AddControllersWithViews();
+builder.Services.AddMvc(o =>
+{
+    var policy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+    o.Filters.Add(new AuthorizeFilter(policy));
+});
 
 var app = builder.Build();
 
@@ -17,11 +35,12 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=SocialMediaApp}/{action=Index}");
 
 app.Run();
