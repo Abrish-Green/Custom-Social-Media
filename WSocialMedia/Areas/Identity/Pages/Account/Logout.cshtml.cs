@@ -28,7 +28,7 @@ namespace WSocialMedia.Areas.Identity.Pages.Account
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
-            return Redirect("/Account/Login");
+            return RedirectToPage("Login");
         }
     }
 }

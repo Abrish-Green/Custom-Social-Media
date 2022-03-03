@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SocialMedia.Models.Post>
+﻿@model IEnumerable<HomeViewModel>
 @{
 	ViewData["Title"] = "Home";
 }	
@@ -36,9 +36,9 @@
 											</li>
 											
 											<li>
-												<i class="fa-solid fa-right-from-bracket"></i>
-												 <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-													<button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+												
+												<form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+													<i class="fa-solid fa-right-from-bracket"></i><button id="logout" type="submit" class="nav-link btn btn-link text-dark"> Logout</button>
 												</form>
 											</li>
 										</ul>
@@ -88,14 +88,7 @@
 										</ul>
 									</div>  
 								</aside>
-							</div>  
-
-
-
-
-
-
-						
+							</div>
 							<div class="col-lg-6">
 								<div class="central-meta">
 									<div class="new-postbox">
@@ -104,11 +97,11 @@
 										</figure>
 										<div class="newpst-input">
 											<form method="post">
-												<textarea rows="2" placeholder="write something"></textarea>
+												<textarea rows="2" name="PostContent" placeholder="write something"></textarea>
 												<div class="attachments">
 													<ul>
 														<li>
-															<button type="submit">Post</button>
+															<button type="submit" asp-action="Post">Post</button>
 														</li>
 													</ul>
 												</div>
@@ -119,8 +112,24 @@
 
 
 
+
+
+
 								<div class="loadMore">
-								<div class="central-meta item">
+
+								@if(Model.Count() == 0 ){
+									<div class="central-meta item">
+
+											<div class="post-meta">
+														<div class="description">
+															<h5>No Post</h5>
+														</div>
+											</div>
+									</div>
+								}else{
+									
+									@foreach(var post in Model){
+										<div class="central-meta item">
 
 
 									<div class="user-post">
@@ -129,29 +138,54 @@
 												<i class="fat fa-user-group"></i>
 											</figure>
 											<div class="friend-name">
-												<ins><a href="time-line.html" title="">Janice Griffith</a></ins>
-												<span>published: june,2 2018 19:PM</span>
+												<ins><a href="time-line.html" title="">@post.UserName</a></ins>
+												<span>@post.PostDate.ToString("HH:mm tt d dddd, MMMM yyyy")</span>
 											</div>
 											<div class="post-meta">
 												<img src="images/resources/user-post.jpg" alt="POST image">
 												<div class="description">
 													
 													<p>
-														World's most beautiful car in Curabitur <a href="#" title="">#test drive booking !</a> the most beatuiful car available in america and the saudia arabia, you can book your test drive by our official website
+														@post.PostContent
 													</p>
 												</div>
 												<div class="we-video-info">
 													<ul>
 													<li>
 															<span class="like" data-toggle="tooltip" title="like">
-																<i class="fa-thin fa-heart"></i>
-																<ins>2.2k</ins>
+																
+																
+																		@if(post.Likes != null){
+																			@if(post.Likes.Count() == 0){
+																				
+																				<a style="text-decoration: none;" asp-route-postId="@post.postId">
+																					<ins><i class="fa-thin fa-heart"></i>Like</ins>
+																				</a>
+																		
+																			}else{
+																				<a style="text-decoration: none;" asp-route-postId="@post.postId">
+																					<ins><i class="fa-thin fa-heart"></i> &nbsp; @post.Likes.Count() Like</ins>
+																				</a>
+																			}
+																		}else{
+																			<a style="text-decoration: none;" asp-route-postId="@post.postId">
+																					<ins><i class="fa-thin fa-heart"></i>Like</ins>
+																			</a>
+																		}
+																	
 															</span>
 														</li>
 														<li>
 															<span class="comment" data-toggle="tooltip" title="Comments">
 																<i class="fa fa-comments-o"></i>
-																<ins>52</ins>
+																
+															@*		
+																@if(post.Comments.Count(null)){
+																	<ins>Comment</ins>
+																}else{
+																	<ins>@post.Comments.Count()</ins>
+																}*@
+																	
 															</span>
 														</li>
 													
@@ -165,10 +199,10 @@
 										</div>
 
 
-
-										<div class="coment-area border-top-2" >
-											<ul class="we-comet">
-												<li>
+										
+											<div class="coment-area border-top-2" >
+											<ul class="we-comet" >
+												<li style="height: 30vh;overflow:scroll;">
 													<div class="comet-avatar">
 														<img src="images/resources/comet-1.jpg" alt="">
 													</div>
@@ -182,21 +216,7 @@
 													</div>
 													
 												</li>
-												<li>
-													<div class="comet-avatar">
-														<img src="images/resources/comet-1.jpg" alt="">
-													</div>
-													<div class="we-comment">
-														<div class="coment-head">
-															<h5><a href="time-line.html" title="">Donald Trump</a></h5>
-															<span>1 week ago</span>
-															<a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
-														</div>
-														<p>we are working for the dance and sing songs. this video is very awesome for the youngster. please vote this video and like our channel
-															<i class="em em-smiley"></i>
-														</p>
-													</div>
-												</li>
+											
 												<li>
 													<a href="#" title="" class="showmore underline">more comments</a>
 												</li>
@@ -230,17 +250,27 @@
 												</li>
 											</ul>
 										</div>
+										
+										
+										
 									</div>
 								</div>
+									}
 
-
-
-
+								}
 
 								
-								
+
+
+
+	
 								</div>
 							</div> 
+
+
+
+
+
 							<div class="col-lg-3">
 								<aside class="sidebar static">
 									<div class="widget">

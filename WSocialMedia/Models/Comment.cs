@@ -4,14 +4,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SocialMedia.Models
 {
-    [Keyless]
     public class Comment
     {
-        public string UserId { get; }
-        public string PostId { get; }
-
+        [Key]
+        public string commentID { get; set; }
+       
         [Required]
         [DefaultValue("")]
         public string CommentContent { get; set; }
+        public string UserId { get; }
+        public Post Post { get; set; }
     }
 }

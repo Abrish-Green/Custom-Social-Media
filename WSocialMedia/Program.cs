@@ -23,6 +23,9 @@ builder.Services.AddMvc(o =>
 
 var app = builder.Build();
 
+//To handle DateTime Kind
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

@@ -160,9 +160,19 @@ namespace WSocialMedia.Migrations
 
             modelBuilder.Entity("SocialMedia.Models.Comment", b =>
                 {
+                    b.Property<string>("commentID")
+                        .HasColumnType("text");
+
                     b.Property<string>("CommentContent")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("PostId")
+                        .HasColumnType("text");
+
+                    b.HasKey("commentID");
+
+                    b.HasIndex("PostId");
 
                     b.ToTable("Comments");
                 });
@@ -238,6 +248,26 @@ namespace WSocialMedia.Migrations
                     b.ToTable("Informations");
                 });
 
+            modelBuilder.Entity("SocialMedia.Models.Like", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PostId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UsersId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Like");
+                });
+
             modelBuilder.Entity("SocialMedia.Models.Message", b =>
                 {
                     b.Property<string>("FromUserId")
@@ -283,10 +313,6 @@ namespace WSocialMedia.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<string>("Catagory")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<bool>("Hide")
                         .HasColumnType("boolean");
 
@@ -297,17 +323,12 @@ namespace WSocialMedia.Migrations
                     b.Property<DateTime>("PostDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("PostTitle")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PostsId")
-                        .IsRequired()
+                    b.Property<string>("UserId")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PostsId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Posts");
                 });
@@ -318,13 +339,6 @@ namespace WSocialMedia.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("PostContent")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("PostExpiredDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("PostTitle")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -451,15 +465,40 @@ namespace WSocialMedia.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SocialMedia.Models.Post", b =>
+            modelBuilder.Entity("SocialMedia.Models.Comment", b =>
                 {
-                    b.HasOne("SocialMedia.Models.Post", "Posts")
-                        .WithMany()
-                        .HasForeignKey("PostsId")
+                    b.HasOne("SocialMedia.Models.Post", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId");
+
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("SocialMedia.Models.Like", b =>
+                {
+                    b.HasOne("SocialMedia.Models.Post", "Post")
+                        .WithMany("Likes")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Posts");
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("SocialMedia.Models.Post", b =>
+                {
+                    b.HasOne("WSocialMedia.Areas.Identity.Data.WSocialMediaUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SocialMedia.Models.Post", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("Likes");
                 });
 #pragma warning restore 612, 618
         }
