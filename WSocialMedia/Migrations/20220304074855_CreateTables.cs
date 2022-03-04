@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WSocialMedia.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class CreateTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -253,7 +253,7 @@ namespace WSocialMedia.Migrations
                     PostContent = table.Column<string>(type: "text", nullable: false),
                     PostDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Hide = table.Column<bool>(type: "boolean", nullable: false),
-                    UserId = table.Column<string>(type: "text", nullable: true)
+                    UserId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -262,7 +262,8 @@ namespace WSocialMedia.Migrations
                         name: "FK_Posts_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -271,7 +272,7 @@ namespace WSocialMedia.Migrations
                 {
                     commentID = table.Column<string>(type: "text", nullable: false),
                     CommentContent = table.Column<string>(type: "text", nullable: false),
-                    PostId = table.Column<string>(type: "text", nullable: true)
+                    PostId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -280,22 +281,29 @@ namespace WSocialMedia.Migrations
                         name: "FK_Comments_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Like",
+                name: "Likes",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
+                    likeID = table.Column<string>(type: "text", nullable: false),
                     PostId = table.Column<string>(type: "text", nullable: false),
-                    UsersId = table.Column<string>(type: "text", nullable: false)
+                    UserId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Like", x => x.Id);
+                    table.PrimaryKey("PK_Likes", x => x.likeID);
                     table.ForeignKey(
-                        name: "FK_Like_Posts_PostId",
+                        name: "FK_Likes_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Likes_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
                         principalColumn: "Id",
@@ -345,9 +353,14 @@ namespace WSocialMedia.Migrations
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Like_PostId",
-                table: "Like",
+                name: "IX_Likes_PostId",
+                table: "Likes",
                 column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Likes_UserId",
+                table: "Likes",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_UserId",
@@ -379,7 +392,7 @@ namespace WSocialMedia.Migrations
                 name: "Informations");
 
             migrationBuilder.DropTable(
-                name: "Like");
+                name: "Likes");
 
             migrationBuilder.DropTable(
                 name: "Messages");

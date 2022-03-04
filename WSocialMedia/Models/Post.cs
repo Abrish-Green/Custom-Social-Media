@@ -20,8 +20,11 @@ namespace SocialMedia.Models
         [DefaultValue(false)]
         public bool Hide { get; set; }
 
-        public WSocialMediaUser User { get; set; }
-        public List<Like> Likes { get; set; }
-        public List<Comment> Comments { get; set; }
+        public string UserId { get; set; }
+        public virtual WSocialMediaUser User { get; set; }
+
+        public virtual ICollection<Like> Likes { get; set; }
+       
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

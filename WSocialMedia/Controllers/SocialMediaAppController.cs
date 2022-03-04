@@ -65,42 +65,67 @@ namespace WSocialMedia.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(post);
+
+            return RedirectToAction(nameof(Index));
         }
 
-        // Get: SocialMediaApp/Like
-        [HttpGet]
-        public async Task<IActionResult> Like(string postId)
+        // Post: SocialMediaApp/Like
+        [HttpPost]
+        public async Task<IActionResult> Like(string SMdpost_id)
         {
-            //Get Post
+
+            //Check Post Exist
             var user = await _userManager.GetUserAsync(User);
-            var post = _context.Posts.SingleOrDefault(p => p.Id == postId);
 
-            //Check if Liked
-            if (post.Likes.Any(like => like.UsersId == user.Id))
-            {
-                //Post Liked
-                //Remove like from list
-                var tempLike = post.Likes.FirstOrDefault(like => like.UsersId == user.Id);
-                _context.Posts.FirstOrDefault(p => p.Id == postId).Likes.Remove(tempLike);
+            if (!_context.Posts.Any(post=> post.Id == SMdpost_id)) {
+                return RedirectToAction(nameof(Index)); 
             }
-            else
+            
+            //IF Liked Before Do-Unlike
+            
+            if (_context.Likes.Any(like=>like.PostId == SMdpost_id && like.UserId == user.Id))
             {
-                //Post NOT liked
-                //Add Like
-                var NewLike = new Like()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    UsersId = user.Id
-                };
-                _context.Posts.FirstOrDefault(p => p.Id == postId).Likes.Add(NewLike);
+                var Deletedlike = _context.Likes.FirstOrDefault(like => like.PostId == SMdpost_id && like.UserId == user.Id);
+                _context.Likes.Remove(Deletedlike);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
 
+            Like NewLike = new Like()
+            {
+                likeID = Guid.NewGuid().ToString(),
+                PostId = SMdpost_id,
+                UserId = user.Id
+            };
+            _context.Likes.Add(NewLike);
             await _context.SaveChangesAsync();
 
-        return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index));
      }
 
+        // Post: SocialMediaApp/Comment
+        [HttpPost]
+        public async Task<IActionResult> Comment(string SMdpost_id,string Comment_txt)
+        {
+            //Check Post Exist
+            var user = await _userManager.GetUserAsync(User);
+
+            if (!_context.Posts.Any(post => post.Id == SMdpost_id))
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            Comment NewComment = new Comment() { 
+                commentID = Guid.NewGuid().ToString(),
+                PostId = SMdpost_id,
+                CommentContent = Comment_txt,
+                UserId = user.Id
+            };           
+
+            _context.Comments.Add(NewComment);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
 
 
 

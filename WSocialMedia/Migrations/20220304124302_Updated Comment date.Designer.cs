@@ -12,8 +12,8 @@ using WSocialMedia.Data;
 namespace WSocialMedia.Migrations
 {
     [DbContext(typeof(WSocialMediaContext))]
-    [Migration("20220303112724_Initial Migration")]
-    partial class InitialMigration
+    [Migration("20220304124302_Updated Comment date")]
+    partial class UpdatedCommentdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -169,12 +169,22 @@ namespace WSocialMedia.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("CommentDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("PostId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("commentID");
 
                     b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Comments");
                 });
@@ -252,22 +262,24 @@ namespace WSocialMedia.Migrations
 
             modelBuilder.Entity("SocialMedia.Models.Like", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("likeID")
                         .HasColumnType("text");
 
                     b.Property<string>("PostId")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("UsersId")
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("likeID");
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Like");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Likes");
                 });
 
             modelBuilder.Entity("SocialMedia.Models.Message", b =>
@@ -326,6 +338,7 @@ namespace WSocialMedia.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -471,9 +484,19 @@ namespace WSocialMedia.Migrations
                 {
                     b.HasOne("SocialMedia.Models.Post", "Post")
                         .WithMany("Comments")
-                        .HasForeignKey("PostId");
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WSocialMedia.Areas.Identity.Data.WSocialMediaUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Post");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SocialMedia.Models.Like", b =>
@@ -484,14 +507,24 @@ namespace WSocialMedia.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WSocialMedia.Areas.Identity.Data.WSocialMediaUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Post");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SocialMedia.Models.Post", b =>
                 {
                     b.HasOne("WSocialMedia.Areas.Identity.Data.WSocialMediaUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
+                        .WithMany("Post")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -501,6 +534,11 @@ namespace WSocialMedia.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Likes");
+                });
+
+            modelBuilder.Entity("WSocialMedia.Areas.Identity.Data.WSocialMediaUser", b =>
+                {
+                    b.Navigation("Post");
                 });
 #pragma warning restore 612, 618
         }

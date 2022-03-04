@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<HomeViewModel>
+ 
 @{
 	ViewData["Title"] = "Home";
 }	
@@ -155,36 +156,50 @@
 															<span class="like" data-toggle="tooltip" title="like">
 																
 																
+																	<form asp-action="Like">
+																		<input type="hidden" name="SMdpost_id" value="@post.postId" />
 																		@if(post.Likes != null){
 																			@if(post.Likes.Count() == 0){
 																				
-																				<a style="text-decoration: none;" asp-route-postId="@post.postId">
-																					<ins><i class="fa-thin fa-heart"></i>Like</ins>
-																				</a>
+																				<button type="submit" onsubmit="(e)=>{e.preventDefault();}" class="btn btn-default">
+																					<ins><i class="fa-thin fa-heart"></i>&nbsp;Like</ins>
+																				</button>
 																		
 																			}else{
-																				<a style="text-decoration: none;" asp-route-postId="@post.postId">
-																					<ins><i class="fa-thin fa-heart"></i> &nbsp; @post.Likes.Count() Like</ins>
-																				</a>
+																				<button type="submit" onsubmit="(e)=>{e.preventDefault();}" class="btn btn-default">
+																					<ins><i style="color:red;" class="fa-thin fa-heart"></i> &nbsp; @post.Likes.Count() &nbsp;Like</ins>
+																				</button>
 																			}
 																		}else{
-																			<a style="text-decoration: none;" asp-route-postId="@post.postId">
-																					<ins><i class="fa-thin fa-heart"></i>Like</ins>
-																			</a>
+																			<button type="submit" onsubmit="(e)=>{e.preventDefault();}" class="btn btn-default">
+																					<ins><i class="fa-thin fa-heart"></i>&nbsp;Like</ins>
+																			</button>
 																		}
-																	
+																	</form>
 															</span>
 														</li>
 														<li>
 															<span class="comment" data-toggle="tooltip" title="Comments">
 																<i class="fa fa-comments-o"></i>
 																
-															@*		
-																@if(post.Comments.Count(null)){
-																	<ins>Comment</ins>
-																}else{
-																	<ins>@post.Comments.Count()</ins>
-																}*@
+															
+																	@if(post.Comments != null){
+																			@if(post.Comments.Count() == 0){
+																				
+																				<button type="submit" onsubmit="(e)=>{e.preventDefault();}" class="btn btn-default">
+																					<ins><i class="fa-thin fa-heart"></i>&nbsp;Comment</ins>
+																				</button>
+																		
+																			}else{
+																				<button type="submit" onsubmit="(e)=>{e.preventDefault();}" class="btn btn-default">
+																					<ins><i style="color:red;" class="fa-thin fa-heart"></i> &nbsp; @post.Comments.Count() &nbsp;Comment</ins>
+																				</button>
+																			}
+																		}else{
+																			<button type="submit" onsubmit="(e)=>{e.preventDefault();}" class="btn btn-default">
+																					<ins><i class="fa-thin fa-heart"></i>&nbsp;Comment</ins>
+																			</button>
+																		}
 																	
 															</span>
 														</li>
@@ -198,23 +213,30 @@
 											</div>
 										</div>
 
-
-										
+										<form asp-action="Comment">
+											<input type="hidden" name="SMdpost_id" value="@post.postId" />
 											<div class="coment-area border-top-2" >
 											<ul class="we-comet" >
 												<li style="height: 30vh;overflow:scroll;">
+
+												@foreach(var comment in post.Comments){
 													<div class="comet-avatar">
 														<img src="images/resources/comet-1.jpg" alt="">
 													</div>
 													<div class="we-comment">
 														<div class="coment-head">
 															<h5><a href="time-line.html" title="">Jason borne</a></h5>
-															<span>1 year ago</span>
+															<span>  ago</span>
 															<a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
 														</div>
 														<p>we are working for the dance and sing songs. this car is very awesome for the youngster. please vote this car and like our post</p>
 													</div>
 													
+
+													}
+
+
+
 												</li>
 											
 												<li>
@@ -225,7 +247,6 @@
 														<img src="images/resources/comet-1.jpg" alt="">
 													</div>
 													<div class="post-comt-box">
-														<form method="post">
 															<textarea placeholder="Post your comment"></textarea>
 															<div class="add-smiles">
 																<span class="em em-expressionless" title="add icon"></span>
@@ -245,11 +266,15 @@
 																<i class="em em-stuck_out_tongue"></i>
 															</div>
 															<button type="submit"></button>
-														</form>	
+														
 													</div>
 												</li>
 											</ul>
 										</div>
+
+										</form>						
+										
+											
 										
 										
 										

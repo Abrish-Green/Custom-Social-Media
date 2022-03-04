@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WSocialMedia.Data;
@@ -11,9 +12,10 @@ using WSocialMedia.Data;
 namespace WSocialMedia.Migrations
 {
     [DbContext(typeof(WSocialMediaContext))]
-    partial class WSocialMediaContextModelSnapshot : ModelSnapshot
+    [Migration("20220304122238_Updated Comment")]
+    partial class UpdatedComment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -166,9 +168,6 @@ namespace WSocialMedia.Migrations
                     b.Property<string>("CommentContent")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime>("CommentDate")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("PostId")
                         .IsRequired()

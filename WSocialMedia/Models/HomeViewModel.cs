@@ -11,7 +11,7 @@ namespace WSocialMedia.Models
         public string PostContent { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime PostDate { get; set; }
-        public IEnumerable<Like> Likes { get; set; }
-        public IEnumerable<Comment> Comments { get; set; }
+        public ICollection<Like> Likes { get; set; }
+        public ICollection<Comment> Comments { get; set; }
     }
 }

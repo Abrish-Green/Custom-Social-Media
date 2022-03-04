@@ -20,6 +20,7 @@ public class WSocialMediaContext : IdentityDbContext<WSocialMediaUser>
     public DbSet<Following> MyFollowings { get; set; }
     public DbSet<Message> Messages { get; set; }
     public DbSet<Notification> Notificaitons { get; set; }
+    public DbSet<Like> Likes { get; set; } 
     public DbSet<Comment> Comments { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
