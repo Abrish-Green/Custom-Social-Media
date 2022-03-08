@@ -118,6 +118,7 @@ namespace WSocialMedia.Controllers
                 commentID = Guid.NewGuid().ToString(),
                 PostId = SMdpost_id,
                 CommentContent = Comment_txt,
+                CommentUserName = user.Email,
                 UserId = user.Id
             };           
 
@@ -129,7 +130,43 @@ namespace WSocialMedia.Controllers
 
 
 
+        //Get: SocialMediaApp/Profile
+        [HttpGet]
+        public async Task<ActionResult> Profile() {
+            
+            var user = await _userManager.GetUserAsync(User);
+            var model = _context.Informations.Any(info => info.UserId == user.Id) ? _context.Informations.Single(info => info.UserId == user.Id) : new Information();
+            return View(model);
+        }
 
+        //Post: SocialMediaApp/Profile
+
+        [HttpPost]
+        public async Task<IActionResult> Profile(Information information)
+        {
+
+            var user = await _userManager.GetUserAsync(User);
+            //Add External Fields
+            information.Id = Guid.NewGuid().ToString();
+            information.UserId = user.Id;
+            information.ProfilePictureUrl = "";
+           
+            if (_context.Informations.Any(info => info.UserId == user.Id))
+            {
+                _context.Informations.Update(information);
+                ViewData["AlertType"] = "info";
+                ViewData["Message"] = "Successfully Updated";
+            }
+            else
+            {
+                _context.Informations.Add(information);
+                ViewData["AlertType"] = "success";
+                ViewData["Message"] = "Successfully Created";
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
 
 

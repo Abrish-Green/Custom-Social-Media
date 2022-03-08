@@ -116,7 +116,7 @@
 
 
 
-								<div class="loadMore">
+			<div class="loadMore">
 
 								@if(Model.Count() == 0 ){
 									<div class="central-meta item">
@@ -151,7 +151,7 @@
 													</p>
 												</div>
 												<div class="we-video-info">
-													<ul>
+													<ul style="display:inline-block;">
 													<li>
 															<span class="like" data-toggle="tooltip" title="like">
 																
@@ -187,17 +187,17 @@
 																			@if(post.Comments.Count() == 0){
 																				
 																				<button type="submit" onsubmit="(e)=>{e.preventDefault();}" class="btn btn-default">
-																					<ins><i class="fa-thin fa-heart"></i>&nbsp;Comment</ins>
+																					<ins>Comment</ins>
 																				</button>
 																		
 																			}else{
 																				<button type="submit" onsubmit="(e)=>{e.preventDefault();}" class="btn btn-default">
-																					<ins><i style="color:red;" class="fa-thin fa-heart"></i> &nbsp; @post.Comments.Count() &nbsp;Comment</ins>
+																					<ins> @post.Comments.Count() &nbsp;Comment</ins>
 																				</button>
 																			}
 																		}else{
 																			<button type="submit" onsubmit="(e)=>{e.preventDefault();}" class="btn btn-default">
-																					<ins><i class="fa-thin fa-heart"></i>&nbsp;Comment</ins>
+																					<ins>Comment</ins>
 																			</button>
 																		}
 																	
@@ -216,60 +216,70 @@
 										<form asp-action="Comment">
 											<input type="hidden" name="SMdpost_id" value="@post.postId" />
 											<div class="coment-area border-top-2" >
+											
 											<ul class="we-comet" >
-												<li style="height: 30vh;overflow:scroll;">
+	
+													@if(post.Comments.Count() != 0){
+														<li style="height: 30vh;overflow:scroll;">
 
-												@foreach(var comment in post.Comments){
-													<div class="comet-avatar">
-														<img src="images/resources/comet-1.jpg" alt="">
+														@foreach(var comment in post.Comments){
+															
+										<div class="container mt-1 d-flex justify-content-center">
+											<div class="row">
+												<div class="col-md-12">
+													<div class="card-notification">
+														<ul class="list-unstyled">
+															<li class="media"> <span class="round pt-2">
+																<img src="https://img.icons8.com/bubbles/100/000000/groups.png" class="align-self-start mr-3"></span>
+																<div class="media-body">
+																	<div class="row d-flex">
+																		<h6 class="user-notification pt-2">User @comment.CommentUserName</h6>
+																		<div class="ml-auto">
+																			<p class="text-notification">@comment.CommentDate.ToString("dddd, MMMM")</p>
+																		</div>
+																	</div>
+																	<div class="images mt-2" style="border:none"> 
+																				@comment.CommentContent
+																	</div>
+																	</div>
+															</li>
+														</ul>
 													</div>
-													<div class="we-comment">
-														<div class="coment-head">
-															<h5><a href="time-line.html" title="">Jason borne</a></h5>
-															<span>  ago</span>
-															<a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
-														</div>
-														<p>we are working for the dance and sing songs. this car is very awesome for the youngster. please vote this car and like our post</p>
-													</div>
+												</div>
+											</div>
+										</div>
 													
 
-													}
+															}
 
 
 
-												</li>
-											
+													</li>
 												<li>
 													<a href="#" title="" class="showmore underline">more comments</a>
 												</li>
+												}
+
+												
 												<li class="post-comment">
 													<div class="comet-avatar">
 														<img src="images/resources/comet-1.jpg" alt="">
 													</div>
 													<div class="post-comt-box">
-															<textarea placeholder="Post your comment"></textarea>
+															<textarea name="Comment_txt" placeholder="Post your comment"></textarea>
 															<div class="add-smiles">
 																<span class="em em-expressionless" title="add icon"></span>
 															</div>
-															<div class="smiles-bunch">
-																<i class="em em---1"></i>
-																<i class="em em-smiley"></i>
-																<i class="em em-anguished"></i>
-																<i class="em em-laughing"></i>
-																<i class="em em-angry"></i>
-																<i class="em em-astonished"></i>
-																<i class="em em-blush"></i>
-																<i class="em em-disappointed"></i>
-																<i class="em em-worried"></i>
-																<i class="em em-kissing_heart"></i>
-																<i class="em em-rage"></i>
-																<i class="em em-stuck_out_tongue"></i>
-															</div>
-															<button type="submit"></button>
+															
+															<button type="submit">Comment</button>
 														
 													</div>
 												</li>
 											</ul>
+
+											
+
+
 										</div>
 
 										</form>						

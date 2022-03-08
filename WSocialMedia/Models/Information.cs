@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SocialMedia.Models
 {
-    [Keyless]
+  
 
     public class Information
     {
+       [Key]
+       public string Id { get; set; }
        [Required]
        public string Phone { get; set; }
 

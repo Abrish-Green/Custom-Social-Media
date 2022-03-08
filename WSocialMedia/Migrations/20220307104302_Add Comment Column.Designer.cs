@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WSocialMedia.Data;
@@ -11,9 +12,10 @@ using WSocialMedia.Data;
 namespace WSocialMedia.Migrations
 {
     [DbContext(typeof(WSocialMediaContext))]
-    partial class WSocialMediaContextModelSnapshot : ModelSnapshot
+    [Migration("20220307104302_Add Comment Column")]
+    partial class AddCommentColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,9 +231,6 @@ namespace WSocialMedia.Migrations
 
             modelBuilder.Entity("SocialMedia.Models.Information", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("text");
@@ -261,8 +260,6 @@ namespace WSocialMedia.Migrations
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.HasKey("Id");
 
                     b.ToTable("Informations");
                 });

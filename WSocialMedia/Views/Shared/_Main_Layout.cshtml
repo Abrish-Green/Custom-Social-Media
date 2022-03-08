@@ -48,76 +48,9 @@
 				<a href="#/" class="fa fa-search"></a>
 			</form>
 		</div>
-		<nav id="menu" class="res-menu">
-			<ul>
-				<li><span>Home</span>
-					<ul>
-						<li><a href="index-2.html" title="">Home Social</a></li>
-						
-					</ul>
-				</li>
-				<li><span>Time Line</span>
-					<ul>
-						<li><a href="time-line.html" title="">timeline</a></li>
-						<li><a href="timeline-friends.html" title="">timeline friends</a></li>
-						<li><a href="timeline-groups.html" title="">timeline groups</a></li>
-						
-					</ul>
-				</li>
-				<li><span>Account Setting</span>
-					<ul>
-						<li><a href="create-fav-page.html" title="">create fav page</a></li>
-						<li><a href="edit-account-setting.html" title="">edit account setting</a></li>
-						<li><a href="edit-interest.html" title="">edit-interest</a></li>
-						
-					</ul>
-				</li>
-				<li><span>forum</span>
-					<ul>
-						<li><a href="forum.html" title="">Forum Page</a></li>
-						<li><a href="forums-category.html" title="">Fourm Category</a></li>
-						
-					</ul>
-				</li>
-				<li><span>Our Shop</span>
-					<ul>
-						<li><a href="shop.html" title="">Shop Products</a></li>
-						<li><a href="shop-masonry.html" title="">Shop Masonry Products</a></li>
-					
-					</ul>
-				</li>
-				<li><span>Our Blog</span>
-					<ul>
-						<li><a href="blog-grid-wo-sidebar.html" title="">Our Blog</a></li>
-						<li><a href="blog-grid-right-sidebar.html" title="">Blog with R-Sidebar</a></li>
-						<li><a href="blog-grid-left-sidebar.html" title="">Blog with L-Sidebar</a></li>
-					
-					</ul>
-				</li>
-				<li><span>Portfolio</span>
-					<ul>
-						<li><a href="portfolio-2colm.html" title="">Portfolio 2col</a></li>
-					
-					</ul>
-				</li>
-				<li><span>Support & Help</span>
-					<ul>
-						<li><a href="support-and-help.html" title="">Support & Help</a></li>
-					
-					</ul>
-				</li>
-				<li><span>More pages</span>
-					<ul>
-						<li><a href="careers.html" title="">Careers</a></li>
-						<li><a href="career-detail.html" title="">Career Detail</a></li>
-					
-					</ul>
-				</li>
-				<li><a href="about.html" title="">about</a></li>
-				<li><a href="about-company.html" title="">About Us2</a></li>
-			
-			</ul>
-		</nav>
+		
+
+
 		<nav id="shoppingbag">
 			<div>
 				<div class="">
@@ -186,31 +119,43 @@
 		</nav>
 	</div>  
 	<div class="topbar stick">
-		<div class="logo">
-			<a title="" href="newsfeed.html"><img src="images/logo.png" alt=""></a>
+		<div class="nav nav-bar nav-logo logo">
+			<a title="" style="height:40%;width:40%;" href="/"><img src="/images/icon/logo.png" alt="logo"></a>
 		</div>
 		
 		<div class="top-area">
 			<ul class="main-menu">
 				<li>
-					<a href="#">Home</a>
+					<a href="/SocialMediaApp/Index"><ion-icon name="home-outline"></ion-icon> &nbsp;Home</a>
 				
 				</li>
 				<li>
-					<a href="#" title="">Profile</a>
-					<ul>
-						<li><a href="posts.html" title="">Timeline</a></li>
-						<li><a href="timeline-friends.html" title="">Friends</a></li>
-						<li><a href="timeline-groups.html" title="">Followers</a></li>
-						<li><a href="timeline-photos.html" title="">Photos</a></li>
-					</ul>
-				</li>
-				<li>
-					<a href="#" title="">Message</a>
+					<a href="/SocialMediaApp/Profile" title=""><ion-icon name="person-outline"></ion-icon> &nbsp;Profile</a>
 					
 				</li>
 				<li>
-					<a href="#" title="">Notification</a>
+					<a href="#" title=""><ion-icon name="chatbubble-ellipses-outline"></ion-icon>&nbsp;Message</a>
+					
+				</li>
+				<li>
+					<a href="#" title=""><ion-icon name="git-network-outline"></ion-icon>&nbsp;My Networks&nbsp;<ion-icon name="chevron-down-outline"></ion-icon></a>
+					<ul>
+						<li><a href="timeline-friends.html" title="">New Friend Request &nbsp;<span class="badge badge-info float-right">4</span></a></li>
+						<li><a href="timeline-friends.html" title="">Friends</a></li>
+						<li><a href="timeline-friends.html" title="">Followings</a></li>
+						<li><a href="timeline-groups.html" title="">Followers&nbsp;<span class="badge badge-success float-right">New Follower</span></a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="#" title=""><ion-icon name="settings-outline"></ion-icon>&nbsp;Account Setting &nbsp;<ion-icon name="chevron-down-outline"></ion-icon></a>
+						<ul>
+							<li><a href="timeline-friends.html" title="">Change Crediential</a></li>
+						</ul>
+				</li>
+				<li>
+					<form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout">
+						<i class="fa-solid fa-right-from-bracket"></i><button id="logout" type="submit" class="btn btn-link text-dark"> Logout</button>
+					</form>
 					
 				</li>
 				
@@ -394,7 +339,8 @@ else
 	
 		
 	</div>
-    
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

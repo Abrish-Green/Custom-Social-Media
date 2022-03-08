@@ -14,6 +14,7 @@ namespace SocialMedia.Models
         [Required]
         [DefaultValue("")]
         public string CommentContent { get; set; }
+        public string CommentUserName { get; set; }
         public string PostId { get; set; }
         public string UserId { get; set; }
         public virtual WSocialMediaUser User { get; set; }
